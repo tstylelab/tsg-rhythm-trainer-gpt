@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rhythm Trainer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="brand-kicker">TSG rhythm lab concept</p>
+          <h1>Rhythm Trainer</h1>
+        </div>
+        <nav class="tabs" aria-label="モード切替">
+          <button class="tab active" data-panel="trainer">Trainer</button>
+          <button class="tab" data-panel="library">Slots</button>
+        </nav>
+      </header>
+
+      <section class="panel active" id="trainer-panel">
+        <div class="trainer-layout">
+          <section class="control-surface">
+            <div class="tempo-ring" aria-label="テンポ">
+              <div class="pendulum" id="pendulum">
+                <span></span>
+              </div>
+              <label for="bpm">BPM</label>
+              <output id="bpmValue">72</output>
+              <input id="bpm" type="range" min="40" max="180" value="72" />
+              <div class="tempo-buttons">
+                <button id="bpmDown" aria-label="BPMを下げる">-</button>
+                <button id="tapTempo">TAP</button>
+                <button id="bpmUp" aria-label="BPMを上げる">+</button>
+              </div>
+            </div>
+
+            <div class="practice-card">
+              <div>
+                <p class="eyebrow" id="levelLabel">初級</p>
+                <h2 id="patternTitle">4分音符だけ</h2>
+                <p id="patternGoal">
+                  まずは足で1,2,3,4を感じながら、手で同じ場所をタップ。
+                </p>
+              </div>
+              <div class="meter-row">
+                <span id="meterLabel">4/4</span>
+                <span id="barsLabel">2小節</span>
+                <span id="subdivisionLabel">16分グリッド</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="scoreboard" aria-live="polite">
+            <div class="score-main">
+              <span id="scoreValue">0</span>
+              <small>score</small>
+            </div>
+            <div class="judge-grid">
+              <div><strong id="greatCount">0</strong><span>Perfect</span></div>
+              <div><strong id="goodCount">0</strong><span>Good</span></div>
+              <div><strong id="lateCount">0</strong><span>Late/Early</span></div>
+              <div><strong id="missCount">0</strong><span>Miss</span></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="notation-zone">
+          <div class="measure-header">
+            <span>表示されたリズムを、音符が来る場所でタップ</span>
+            <span id="nextCue">READY</span>
+          </div>
+          <div class="notation" id="notation" aria-label="リズム譜"></div>
+          <div class="beat-numbers" id="beatNumbers"></div>
+        </section>
+
+        <section class="action-strip">
+          <button class="primary" id="startBtn">START</button>
+          <button id="listenBtn">LISTEN</button>
+          <button id="muteBtn" aria-pressed="false">MUTE</button>
+          <button class="tap-pad" id="hitBtn">TAP / SPACE</button>
+        </section>
+
+        <section class="feedback-line" id="feedbackLine">
+          足で拍を刻みながら、手は譜面の白い音符だけを狙ってみましょう。
+        </section>
+      </section>
+
+      <section class="panel" id="library-panel">
+        <div class="section-title">
+          <div>
+            <p class="brand-kicker">pattern slots</p>
+            <h2>練習スロット</h2>
+          </div>
+          <button id="saveCustom">現在の編集を保存</button>
+        </div>
+        <div class="slot-grid" id="slotGrid"></div>
+
+        <section class="editor">
+          <div>
+            <p class="eyebrow">custom editor</p>
+            <h3>2小節パターンを作る</h3>
+          </div>
+          <div class="editor-grid" id="editorGrid"></div>
+          <p class="editor-help">
+            マスを押すと音符のオン/オフを切り替えます。まずは拍の頭、裏拍、16分の4つ目だけでも十分な練習になります。
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

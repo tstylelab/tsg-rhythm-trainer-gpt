@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node -e \"console.log('static app: no build step required')\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
