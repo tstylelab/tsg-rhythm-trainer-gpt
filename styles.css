@@ -563,26 +563,32 @@ h2 {
   }
 
   .notation {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    min-height: 232px;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 2px;
+    min-height: 132px;
+    padding: 16px 6px 8px;
   }
 
   .cell {
-    min-height: 48px;
+    min-height: 88px;
   }
 
   .note {
-    top: 18px;
-    width: 14px;
-    height: 11px;
+    top: 42px;
+    width: 10px;
+    height: 8px;
   }
 
   .note::after {
-    height: 24px;
+    width: 1px;
+    height: 32px;
   }
 
   .rest::before {
-    top: 23px;
+    left: calc(50% - 2px);
+    top: 46px;
+    width: 4px;
+    height: 4px;
   }
 
   .slot-grid,
@@ -595,10 +601,11 @@ h2 {
   }
 
   .editor-grid {
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 3px;
   }
 
   .editor-cell {
-    min-height: 38px;
+    min-height: 28px;
   }
 }
