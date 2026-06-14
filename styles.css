@@ -127,6 +127,90 @@ h2 {
   display: block;
 }
 
+.quick-guide {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.9fr) minmax(280px, 1.4fr) auto;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(25, 29, 33, 0.7);
+}
+
+.quick-guide h2,
+.quick-guide p {
+  margin-bottom: 0;
+}
+
+.quick-guide h2 {
+  font-size: 1.25rem;
+}
+
+.quick-guide ol {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.quick-guide li {
+  min-height: 48px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #14191c;
+  color: #dfe8e4;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
+
+.quick-guide details {
+  position: relative;
+}
+
+.quick-guide summary {
+  min-width: 118px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #252b30;
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 800;
+  list-style: none;
+  text-align: center;
+}
+
+.quick-guide summary::-webkit-details-marker {
+  display: none;
+}
+
+.guide-detail {
+  position: absolute;
+  right: 0;
+  z-index: 5;
+  width: min(420px, calc(100vw - 28px));
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #14191c;
+  box-shadow: var(--shadow);
+}
+
+.guide-detail p {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.guide-detail p:last-child {
+  margin-bottom: 0;
+}
+
 .trainer-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
@@ -534,6 +618,27 @@ h2 {
     min-width: 0;
   }
 
+  .quick-guide {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-guide ol {
+    grid-template-columns: 1fr;
+  }
+
+  .quick-guide li {
+    min-height: 0;
+  }
+
+  .quick-guide summary {
+    width: 100%;
+  }
+
+  .guide-detail {
+    position: static;
+    width: 100%;
+  }
+
   .slot-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -553,6 +658,25 @@ h2 {
   .app-shell {
     width: min(100vw - 18px, 1180px);
     padding-top: 10px;
+  }
+
+  .quick-guide {
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+  }
+
+  .quick-guide h2 {
+    font-size: 1.05rem;
+  }
+
+  .quick-guide ol {
+    gap: 6px;
+  }
+
+  .quick-guide li {
+    padding: 7px 8px;
+    font-size: 0.82rem;
   }
 
   .control-surface,
