@@ -539,8 +539,9 @@ h2 {
   }
 
   .notation {
-    grid-template-columns: repeat(16, minmax(26px, 1fr));
-    overflow-x: auto;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 3px;
+    padding-inline: 8px;
   }
 
   .action-strip {
@@ -554,6 +555,36 @@ h2 {
     padding-top: 10px;
   }
 
+  .control-surface,
+  .scoreboard,
+  .notation-zone,
+  .editor {
+    box-shadow: none;
+  }
+
+  .notation {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    min-height: 232px;
+  }
+
+  .cell {
+    min-height: 48px;
+  }
+
+  .note {
+    top: 18px;
+    width: 14px;
+    height: 11px;
+  }
+
+  .note::after {
+    height: 24px;
+  }
+
+  .rest::before {
+    top: 23px;
+  }
+
   .slot-grid,
   .action-strip {
     grid-template-columns: 1fr;
@@ -564,6 +595,10 @@ h2 {
   }
 
   .editor-grid {
-    grid-template-columns: repeat(16, minmax(18px, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .editor-cell {
+    min-height: 38px;
   }
 }
