@@ -116,7 +116,6 @@ const state = {
   nextClickIndex: 0,
   nextClickAudioTime: 0,
   tapTempoTimes: [],
-  tapOffsetMs: 0,
   judged: new Set(),
   stats: { perfect: 0, good: 0, late: 0, miss: 0 },
   editorNotes: new Set(patterns[11].notes),
@@ -131,9 +130,7 @@ const visualIntervalMs = 20;
 
 function init() {
   loadCustomPattern();
-  loadTapOffset();
   bindControls();
-  setTapOffset(state.tapOffsetMs);
   renderTabs();
   renderSlots();
   renderEditor();
@@ -144,7 +141,6 @@ function bindControls() {
   $("bpm").addEventListener("input", (event) => setBpm(Number(event.target.value)));
   $("bpmDown").addEventListener("click", () => setBpm(state.bpm - 1));
   $("bpmUp").addEventListener("click", () => setBpm(state.bpm + 1));
-  $("tapOffset").addEventListener("input", (event) => setTapOffset(Number(event.target.value)));
   $("tapTempo").addEventListener("click", registerTapTempo);
   $("startBtn").addEventListener("click", togglePractice);
   $("listenBtn").addEventListener("click", playPreview);
@@ -158,13 +154,6 @@ function bindControls() {
       registerHit();
     }
   });
-}
-
-function setTapOffset(value) {
-  state.tapOffsetMs = Math.max(-120, Math.min(120, Math.round(value)));
-  $("tapOffset").value = state.tapOffsetMs;
-  $("tapOffsetValue").textContent = `${state.tapOffsetMs}ms`;
-  localStorage.setItem("rhythm-trainer-tap-offset", String(state.tapOffsetMs));
 }
 
 function renderTabs() {
@@ -364,7 +353,7 @@ function tick() {
   state.step = step;
 
   highlightStep(step);
-  markMisses(now + state.tapOffsetMs);
+  markMisses(now);
 
   if (step % 4 === 0 && step !== state.beat) {
     state.beat = step;
@@ -382,19 +371,15 @@ function highlightStep(step) {
 
 function markMisses(now) {
   const pattern = patterns[state.patternIndex];
-  const cycle = cycleAtTime(now);
-  [cycle - 1, cycle].forEach((candidateCycle) => {
-    if (candidateCycle < 0) return;
-    pattern.notes.forEach((noteStep) => {
-      const target = targetTimeForCycle(candidateCycle, noteStep);
-      const key = `${candidateCycle}-${noteStep}`;
-      if (!state.judged.has(key) && now - target > 170) {
-        state.judged.add(key);
-        state.stats.miss += 1;
-        markCell(noteStep, "hit-miss");
-        updateScore("Miss", "拍を止めずに、次の音へ戻りましょう。");
-      }
-    });
+  pattern.notes.forEach((noteStep) => {
+    const target = targetTime(noteStep);
+    const key = `${currentCycle()}-${noteStep}`;
+    if (!state.judged.has(key) && now - target > 170) {
+      state.judged.add(key);
+      state.stats.miss += 1;
+      markCell(noteStep, "hit-miss");
+      updateScore("Miss", "拍を止めずに、次の音へ戻りましょう。");
+    }
   });
 }
 
@@ -407,17 +392,14 @@ function registerHit() {
   ensureAudio();
   playClick(360, 0.025);
   const pattern = patterns[state.patternIndex];
-  const now = performance.now() + state.tapOffsetMs;
-  const cycle = cycleAtTime(now);
-  const candidates = [cycle - 1, cycle, cycle + 1]
-    .flatMap((candidateCycle) =>
-      pattern.notes.map((noteStep) => ({
-        cycle: candidateCycle,
-        step: noteStep,
-        diff: now - targetTimeForCycle(candidateCycle, noteStep),
-        key: `${candidateCycle}-${noteStep}`,
-      })),
-    )
+  const now = performance.now();
+  const cycle = currentCycle();
+  const candidates = pattern.notes
+    .map((noteStep) => ({
+      step: noteStep,
+      diff: now - targetTime(noteStep),
+      key: `${cycle}-${noteStep}`,
+    }))
     .filter((candidate) => !state.judged.has(candidate.key))
     .sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff));
 
@@ -519,19 +501,11 @@ function quarterDuration() {
 }
 
 function currentCycle() {
-  return cycleAtTime(performance.now());
+  return Math.floor(Math.max(0, performance.now() - state.cycleStart) / (stepDuration() * totalSteps));
 }
 
 function targetTime(step) {
-  return targetTimeForCycle(currentCycle(), step);
-}
-
-function cycleAtTime(time) {
-  return Math.floor(Math.max(0, time - state.cycleStart) / (stepDuration() * totalSteps));
-}
-
-function targetTimeForCycle(cycle, step) {
-  return state.cycleStart + cycle * stepDuration() * totalSteps + step * stepDuration();
+  return state.cycleStart + currentCycle() * stepDuration() * totalSteps + step * stepDuration();
 }
 
 function markCell(step, className) {
@@ -570,13 +544,6 @@ function loadCustomPattern() {
     }
   } catch {
     localStorage.removeItem("rhythm-trainer-custom");
-  }
-}
-
-function loadTapOffset() {
-  const saved = Number(localStorage.getItem("rhythm-trainer-tap-offset"));
-  if (Number.isFinite(saved)) {
-    state.tapOffsetMs = Math.max(-120, Math.min(120, Math.round(saved)));
   }
 }
 

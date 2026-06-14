@@ -251,38 +251,6 @@ h2 {
   font-size: 0.88rem;
 }
 
-.latency-control {
-  display: grid;
-  gap: 7px;
-  margin-top: 14px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-
-.latency-control label {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  color: #dbe4e1;
-  font-size: 0.88rem;
-  font-weight: 800;
-}
-
-.latency-control output {
-  color: var(--accent-2);
-}
-
-.latency-control input {
-  width: 100%;
-  accent-color: var(--accent-2);
-}
-
-.latency-control small {
-  color: var(--muted);
-  line-height: 1.45;
-}
-
 .scoreboard {
   padding: 18px;
 }
