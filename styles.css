@@ -772,9 +772,29 @@ h2 {
     height: 4px;
   }
 
-  .slot-grid,
-  .action-strip {
+  .slot-grid {
     grid-template-columns: 1fr;
+  }
+
+  .action-strip {
+    position: sticky;
+    bottom: 0;
+    z-index: 4;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    background:
+      linear-gradient(to top, rgba(16, 18, 20, 0.98), rgba(16, 18, 20, 0.86) 78%, transparent);
+  }
+
+  .action-strip button {
+    min-height: 40px;
+  }
+
+  .tap-pad {
+    order: -1;
+    grid-column: 1 / -1;
+    min-height: 72px;
+    font-size: 1.15rem;
   }
 
   .judge-grid {
