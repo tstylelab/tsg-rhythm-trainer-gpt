@@ -619,11 +619,6 @@ h2 {
     font-size: 0.78rem;
   }
 
-  .latency-control {
-    margin-top: 10px;
-    padding-top: 10px;
-  }
-
   .notation {
     grid-template-columns: repeat(16, minmax(0, 1fr));
     gap: 2px;

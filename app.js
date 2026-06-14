@@ -400,6 +400,17 @@ function registerHit() {
       diff: now - targetTime(noteStep),
       key: `${cycle}-${noteStep}`,
     }))
+    .concat(
+      pattern.notes.includes(0)
+        ? [
+            {
+              step: 0,
+              diff: now - targetTimeForCycle(cycle + 1, 0),
+              key: `${cycle + 1}-0`,
+            },
+          ]
+        : [],
+    )
     .filter((candidate) => !state.judged.has(candidate.key))
     .sort((a, b) => Math.abs(a.diff) - Math.abs(b.diff));
 
@@ -506,6 +517,10 @@ function currentCycle() {
 
 function targetTime(step) {
   return state.cycleStart + currentCycle() * stepDuration() * totalSteps + step * stepDuration();
+}
+
+function targetTimeForCycle(cycle, step) {
+  return state.cycleStart + cycle * stepDuration() * totalSteps + step * stepDuration();
 }
 
 function markCell(step, className) {
