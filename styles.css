@@ -594,6 +594,68 @@ h2 {
     box-shadow: none;
   }
 
+  .control-surface {
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .tempo-ring {
+    grid-template-columns: auto minmax(58px, 0.7fr) minmax(0, 1.6fr);
+    align-items: center;
+    gap: 8px;
+    min-height: 0;
+    padding: 10px;
+    text-align: left;
+  }
+
+  .pendulum {
+    display: none;
+  }
+
+  .tempo-ring label {
+    margin: 0;
+  }
+
+  .tempo-ring output {
+    font-size: 2.1rem;
+    text-align: right;
+  }
+
+  .tempo-ring input {
+    min-width: 0;
+  }
+
+  .tempo-buttons {
+    grid-column: 1 / -1;
+  }
+
+  .tempo-buttons button {
+    min-height: 36px;
+  }
+
+  .practice-card {
+    min-height: 0;
+    padding: 12px;
+  }
+
+  .practice-card h2 {
+    font-size: 1.45rem;
+  }
+
+  .practice-card p:not(.eyebrow) {
+    line-height: 1.55;
+  }
+
+  .meter-row span {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+  }
+
+  .latency-control {
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+
   .notation {
     grid-template-columns: repeat(16, minmax(0, 1fr));
     gap: 2px;
