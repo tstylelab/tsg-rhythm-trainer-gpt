@@ -270,6 +270,7 @@ function setBpm(value) {
     state.nextClickAudioTime = state.audioStartTime;
     startClock();
     $("nextCue").textContent = "COUNT 1";
+    updateCountInDisplay(0);
   }
 }
 
@@ -302,6 +303,7 @@ function togglePractice() {
     startClock();
     $("startBtn").textContent = "STOP";
     $("nextCue").textContent = "COUNT 1";
+    updateCountInDisplay(0);
   }
 }
 
@@ -352,8 +354,11 @@ function tick() {
     }
     highlightStep(-1);
     $("nextCue").textContent = `COUNT ${Math.min(4, countBeat + 1)}`;
+    updateCountInDisplay(countBeat);
     return;
   }
+
+  updateCountInDisplay(-1);
 
   const elapsed = Math.max(0, now - state.cycleStart);
   const step = Math.floor(elapsed / interval) % totalSteps;
@@ -373,6 +378,14 @@ function tick() {
 function highlightStep(step) {
   document.querySelectorAll(".cell").forEach((cell, index) => {
     cell.classList.toggle("current", index === step);
+  });
+}
+
+function updateCountInDisplay(activeBeat) {
+  $("countInDisplay").classList.toggle("is-active", activeBeat >= 0 && activeBeat < 4);
+  document.querySelectorAll("#countInDisplay span").forEach((item, index) => {
+    item.classList.toggle("active", index === activeBeat);
+    item.classList.toggle("done", activeBeat > index);
   });
 }
 
@@ -477,6 +490,7 @@ function resetPractice() {
   state.judged.clear();
   state.stats = { perfect: 0, good: 0, late: 0, miss: 0 };
   updateScore("Ready", "足で拍を刻みながら、手は譜面の白い音符だけを狙ってみましょう。");
+  updateCountInDisplay(-1);
   document.querySelectorAll(".cell").forEach((cell) => {
     cell.classList.remove("hit-perfect", "hit-good", "hit-miss", "current");
   });
