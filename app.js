@@ -444,7 +444,23 @@ function updateScore(label, message) {
   $("goodCount").textContent = state.stats.good;
   $("lateCount").textContent = state.stats.late;
   $("missCount").textContent = state.stats.miss;
-  $("feedbackLine").textContent = `${label}: ${message}`;
+  setFeedback(label, message);
+}
+
+function setFeedback(label, message) {
+  const feedback = $("feedbackLine");
+  const status = feedbackStatus(label);
+  feedback.classList.remove("is-ready", "is-perfect", "is-good", "is-warning", "is-miss");
+  feedback.classList.add(status);
+  feedback.textContent = `${label}: ${message}`;
+}
+
+function feedbackStatus(label) {
+  if (label === "Perfect") return "is-perfect";
+  if (label === "Good") return "is-good";
+  if (label === "Miss") return "is-miss";
+  if (label === "Early" || label === "Late" || label === "Too far") return "is-warning";
+  return "is-ready";
 }
 
 function resetPractice() {

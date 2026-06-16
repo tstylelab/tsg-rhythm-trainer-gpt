@@ -536,6 +536,35 @@ h2 {
   background: rgba(53, 198, 164, 0.09);
 }
 
+.feedback-line.is-ready {
+  border-left-color: var(--accent);
+  background: rgba(53, 198, 164, 0.09);
+}
+
+.feedback-line.is-perfect {
+  border-left-color: var(--accent);
+  background: rgba(53, 198, 164, 0.16);
+  color: #effffb;
+}
+
+.feedback-line.is-good {
+  border-left-color: var(--accent-2);
+  background: rgba(241, 184, 75, 0.14);
+  color: #fff4db;
+}
+
+.feedback-line.is-warning {
+  border-left-color: var(--blue);
+  background: rgba(104, 167, 255, 0.14);
+  color: #eaf3ff;
+}
+
+.feedback-line.is-miss {
+  border-left-color: var(--danger);
+  background: rgba(239, 107, 93, 0.14);
+  color: #ffe8e5;
+}
+
 .section-title {
   margin-top: 4px;
 }
