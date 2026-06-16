@@ -159,12 +159,15 @@ function bindControls() {
 function renderTabs() {
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
-      document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
-      tab.classList.add("active");
-      $(`${tab.dataset.panel}-panel`).classList.add("active");
+      showPanel(tab.dataset.panel);
     });
   });
+}
+
+function showPanel(panelName) {
+  document.querySelectorAll(".tab").forEach((item) => item.classList.toggle("active", item.dataset.panel === panelName));
+  document.querySelectorAll(".panel").forEach((panel) => panel.classList.remove("active"));
+  $(`${panelName}-panel`).classList.add("active");
 }
 
 function renderSlots() {
@@ -178,7 +181,11 @@ function renderSlots() {
       <strong>${pattern.title}</strong>
       <p>${pattern.goal}</p>
     `;
-    button.addEventListener("click", () => selectPattern(index));
+    button.addEventListener("click", () => {
+      selectPattern(index);
+      showPanel("trainer");
+      setFeedback("Ready", `${pattern.title}を選びました。LISTENで確認してからSTARTできます。`);
+    });
     grid.appendChild(button);
   });
 }
