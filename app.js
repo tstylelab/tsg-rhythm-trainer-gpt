@@ -269,7 +269,7 @@ function setBpm(value) {
     state.nextClickIndex = 0;
     state.nextClickAudioTime = state.audioStartTime;
     startClock();
-    $("nextCue").textContent = "COUNT 1";
+    setPracticeState("count");
     updateCountInDisplay(0);
   }
 }
@@ -289,7 +289,7 @@ function togglePractice() {
   if (state.isRunning) {
     stopClock();
     $("startBtn").textContent = "START";
-    $("nextCue").textContent = "PAUSED";
+    setPracticeState("paused");
   } else {
     resetPractice();
     ensureAudio();
@@ -302,7 +302,7 @@ function togglePractice() {
     state.nextClickAudioTime = state.audioStartTime;
     startClock();
     $("startBtn").textContent = "STOP";
-    $("nextCue").textContent = "COUNT 1";
+    setPracticeState("count");
     updateCountInDisplay(0);
   }
 }
@@ -353,12 +353,13 @@ function tick() {
       swingPendulum(countBeat * 4);
     }
     highlightStep(-1);
-    $("nextCue").textContent = `COUNT ${Math.min(4, countBeat + 1)}`;
+    setPracticeState("count", Math.min(4, countBeat + 1));
     updateCountInDisplay(countBeat);
     return;
   }
 
   updateCountInDisplay(-1);
+  setPracticeState("playing");
 
   const elapsed = Math.max(0, now - state.cycleStart);
   const step = Math.floor(elapsed / interval) % totalSteps;
@@ -372,7 +373,7 @@ function tick() {
     swingPendulum(step);
   }
 
-  $("nextCue").textContent = state.isRunning ? `STEP ${step + 1}` : "READY";
+  setPracticeState(state.isRunning ? "playing" : "ready");
 }
 
 function highlightStep(step) {
@@ -387,6 +388,21 @@ function updateCountInDisplay(activeBeat) {
     item.classList.toggle("active", index === activeBeat);
     item.classList.toggle("done", activeBeat > index);
   });
+}
+
+function setPracticeState(status, count = null) {
+  const cue = $("nextCue");
+  cue.className = "";
+  cue.classList.add(`state-${status}`);
+  if (status === "count") {
+    cue.textContent = count ? `COUNT IN ${count}` : "COUNT IN";
+  } else if (status === "playing") {
+    cue.textContent = "PLAYING";
+  } else if (status === "paused") {
+    cue.textContent = "PAUSED";
+  } else {
+    cue.textContent = "READY";
+  }
 }
 
 function markMisses(now) {
@@ -489,6 +505,7 @@ function resetPractice() {
   state.countInBeat = -1;
   state.judged.clear();
   state.stats = { perfect: 0, good: 0, late: 0, miss: 0 };
+  setPracticeState("ready");
   updateScore("Ready", "足で拍を刻みながら、手は譜面の白い音符だけを狙ってみましょう。");
   updateCountInDisplay(-1);
   document.querySelectorAll(".cell").forEach((cell) => {

@@ -399,7 +399,38 @@ h2 {
 }
 
 #nextCue {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #14191c;
   color: var(--accent-2);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+#nextCue.state-ready {
+  color: var(--muted);
+}
+
+#nextCue.state-count {
+  border-color: rgba(241, 184, 75, 0.58);
+  background: rgba(241, 184, 75, 0.12);
+  color: #ffe0a1;
+}
+
+#nextCue.state-playing {
+  border-color: rgba(53, 198, 164, 0.56);
+  background: rgba(53, 198, 164, 0.12);
+  color: #bff8e9;
+}
+
+#nextCue.state-paused {
+  border-color: rgba(104, 167, 255, 0.56);
+  background: rgba(104, 167, 255, 0.12);
+  color: #dceaff;
 }
 
 .count-in-display {
